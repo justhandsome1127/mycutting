@@ -32,7 +32,7 @@
 <body>
 
     <div class="container">
-        <h2 id="day-counter">堅持了 ... (- 5)天 ！</h2>
+        <h2 id="day-counter">堅持了 ...  ！</h2>
         <div id="chart-container">
             <canvas id="myChart"></canvas>
         </div>
@@ -89,7 +89,7 @@
         // 下方的程式碼負責畫圖與更新標題，不需要修改！
         // =========================================================
 
-        document.getElementById('day-counter').innerText = `堅持了 ${weightData.length} 天 ！`;
+        document.getElementById('day-counter').innerText = `堅持了 ${weightData.length} (-5)天 ！`;
         const labels = weightData.map((_, index) => `Day ${index + 1}`);
 
         // 定義顏色：正常為藍色，中斷為紅色
