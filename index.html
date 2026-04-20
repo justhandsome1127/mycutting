@@ -149,6 +149,26 @@
                     }
                 },
                 scales: {
+                    // 新增 x 軸的自訂設定
+                    x: {
+                        ticks: {
+                            autoSkip: false, // 關閉原生的自動隱藏機制，由我們自己控制
+                            maxRotation: 45, // 讓字體稍微傾斜 45 度，能容納更多字又不擁擠
+                            minRotation: 45,
+                            callback: function(val, index) {
+                                // 1. 永遠顯示「第一天」和「最後一天」
+                                if (index === 0 || index === labels.length - 1) {
+                                    return this.getLabelForValue(val);
+                                }
+                                // 2. 中間的天數，每 5 天顯示一次 (可自行把 5 改成想要的間隔)
+                                if ((index + 1) % 5 === 0) {
+                                    return this.getLabelForValue(val);
+                                }
+                                // 3. 其餘的標籤隱藏不顯示
+                                return null; 
+                            }
+                        }
+                    },
                     y: {
                         min: yMin !== null ? yMin : undefined,
                         max: yMax !== null ? yMax : undefined
