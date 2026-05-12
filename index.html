@@ -41,20 +41,15 @@
     <script>
         async function renderChart() {
             try {
-                // 1. 取得 JSON 資料
                 const response = await fetch('data.json?t=' + new Date().getTime());
                 if (!response.ok) throw new Error('無法讀取資料');
                 const data = await response.json();
 
-                // 2. 解構提取資料
-                // 【修正這裡】：將 JSON 裡的 weightData 提取出來時，先重新命名為 rawWeightData
                 const { settings, breakDays, weightData: rawWeightData } = data;
                 const { yMin, yMax } = settings;
 
-                // 接著再將含有 note 的物件陣列，轉換成只有數字的陣列，此時才命名為 weightData
                 const weightData = rawWeightData.map(item => item.weight);
 
-                // --- 以下完全是你原本畫圖的邏輯，不需變動 ---
                 document.getElementById('day-counter').innerText = `堅持了 ${weightData.length} (-5)天 ！`;
                 const labels = weightData.map((_, index) => `Day ${index + 1}`);
 
@@ -71,28 +66,40 @@
                     type: 'line',
                     data: {
                         labels: labels,
-                        datasets: [{
-                            label: '體重 (kg)',
-                            data: weightData,
-                            backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                            borderWidth: 2,
-                            pointBackgroundColor: pointColors,
-                            pointBorderColor: pointColors,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
-                            tension: 0.2,
-                            spanGaps: true,
-                            segment: {
-                                borderColor: ctx => {
-                                    const p0Day = ctx.p0DataIndex + 1;
-                                    const p1Day = ctx.p1DataIndex + 1;
-                                    if (breakDays.includes(p0Day) || breakDays.includes(p1Day)) {
-                                        return breakColor;
+                        datasets: [
+                            {
+                                label: '體重 (kg)',
+                                data: weightData,
+                                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                                borderColor: normalColor, // 建議明確指定預設線條顏色
+                                borderWidth: 2,
+                                pointBackgroundColor: pointColors,
+                                pointBorderColor: pointColors,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                tension: 0.2,
+                                spanGaps: true,
+                                segment: {
+                                    borderColor: ctx => {
+                                        const p0Day = ctx.p0DataIndex + 1;
+                                        const p1Day = ctx.p1DataIndex + 1;
+                                        if (breakDays.includes(p0Day) || breakDays.includes(p1Day)) {
+                                            return breakColor;
+                                        }
+                                        return normalColor;
                                     }
-                                    return normalColor;
                                 }
+                            },
+                            // 新增這個空的資料集來產生「放縱時期」的紅色圖例
+                            {
+                                label: '放縱時期',
+                                data: [], 
+                                backgroundColor: breakColor,
+                                borderColor: breakColor,
+                                pointBackgroundColor: breakColor,
+                                pointBorderColor: breakColor
                             }
-                        }]
+                        ]
                     },
                     options: {
                         responsive: true,
@@ -129,7 +136,6 @@
             }
         }
 
-        // 執行畫圖函式
         renderChart();
     </script>
 </body>
