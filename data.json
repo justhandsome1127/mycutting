@@ -3,7 +3,7 @@
     "yMin": 79,
     "yMax": 88
   },
-  "breakDays": [15, 16, 17, 18, 19, 53, 54, 55, 58, 59, 60, 61, 62, 63],
+  "breakDays": [15, 16, 17, 18, 19, 53, 54, 55, 58, 59, 60, 61, 62, 63, 64],
   "weightData": [
     { "weight": 87.8, "note": "Day 1" },
     { "weight": 87.3, "note": "Day 2" },
@@ -67,6 +67,7 @@
     { "weight": 83.4, "note": "day 60 5/16" },
     { "weight": 83.4, "note": "day 61 5/17" },
     { "weight": 83.5, "note": "day 62 5/18" },
-    { "weight": 82.9, "note": "day 63 5/19" }
+    { "weight": 82.9, "note": "day 63 5/19" },
+    { "weight": 83.4, "note": "day 64 5/20" }
   ]
 }
